@@ -1,12 +1,14 @@
 import { Module } from "@nestjs/common";
 import { UserRepository } from "src/modules/user/repositories/UserRepository";
-import { UserRepositoryLocalMemory } from "src/infra/database/repositories/UserRepositoryLocalMemory";
+import { PrismaUserRepository } from "./prisma/repositories/PrismaUserRepository";
+import { PrismaService } from "./prisma/prisma.service";
 
 @Module({
   providers: [
+    PrismaService,
     {
       provide: UserRepository,
-      useClass: UserRepositoryLocalMemory,
+      useClass: PrismaUserRepository,
     },
   ],
   exports: [UserRepository],
