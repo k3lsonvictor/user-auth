@@ -11,4 +11,20 @@ export class PrismaUserMapper {
       password,
     };
   }
+
+  static toDomain({ id, createdAt, email, name, password }: UserRaw): User {
+    return new User(
+      {
+        createdAt,
+        email,
+        name,
+        password,
+      },
+      id,
+    );
+  }
+
+  static toResponse(user: User): Omit<UserRaw, "password"> {
+    return user.toJSON(); // Usa o método toJSON para formatar o retorno
+  }
 }

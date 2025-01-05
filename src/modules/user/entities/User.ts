@@ -51,4 +51,13 @@ export class User {
   get createdAt(): Date {
     return this.props.createdAt;
   }
+
+  toJSON(): Omit<UserSchema, "password"> & { id: string } {
+    return {
+      id: this._id,
+      name: this.props.name,
+      email: this.props.email,
+      createdAt: this.props.createdAt,
+    };
+  }
 }
