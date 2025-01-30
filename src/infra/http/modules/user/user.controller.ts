@@ -1,9 +1,10 @@
-import { Body, Controller, Get, Param, Post } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Post } from "@nestjs/common";
 import { CreateUserUseCase } from "src/modules/user/useCases/createUserUseCase/createUserUserCase";
 import { CreateUserBody } from "./dtos/createUserBody";
 import { UserViewModel } from "src/modules/user/viewModel/userViewModel";
 import { GetUsersUseCase } from "src/modules/user/useCases/getUsersUseCase/getUserUseCase";
 import { GetUserUseCase } from "src/modules/user/useCases/getUserUseCase/getUserUseCase";
+import { DeleteUserUseCase } from "src/modules/user/useCases/deleteUseUseCase/deleteUserUseCase";
 
 @Controller("users")
 export class UserController {
@@ -11,6 +12,7 @@ export class UserController {
     private createUserUseCase: CreateUserUseCase,
     private getUsersUseCase: GetUsersUseCase,
     private getUserUseCase: GetUserUseCase,
+    private deleteUserUseCase: DeleteUserUseCase,
   ) {}
 
   @Post()
@@ -37,5 +39,11 @@ export class UserController {
   async getById(@Param("id") id: string) {
     const user = await this.getUserUseCase.execute(id);
     return user;
+  }
+
+  @Delete(":id")
+  async delete(@Param("id") id: string) {
+    await this.deleteUserUseCase.execute({ id });
+    return { message: "User deleted" };
   }
 }
